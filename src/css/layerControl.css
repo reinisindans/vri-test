@@ -1,0 +1,17 @@
+.layerControlContainer {
+    position: absolute;
+    bottom: 40px;
+    left: 20px;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.438);
+    border-style: solid;
+    border-radius: 5%;
+    border-color: #8a93a7;
+    border-width: 2px;
+}
+
+.layerControlEntry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
