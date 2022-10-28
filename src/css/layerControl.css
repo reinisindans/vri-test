@@ -1,6 +1,4 @@
 .layerControlContainer {
-    width:60px;
-    height:100px;
     position: absolute;
     bottom: 40px;
     left: 20px;
@@ -10,4 +8,10 @@
     border-radius: 5%;
     border-color: #8a93a7;
     border-width: 2px;
+}
+
+.layerControlEntry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
