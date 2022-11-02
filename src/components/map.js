@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { MapContainer, TileLayer, WMSTileLayer } from "react-leaflet";
 
@@ -10,15 +10,21 @@ import {
 } from "../constants/geoserver";
 import Legend from "./legend";
 import LayerControl from "./layerControl";
+import BasemapSwitch from "./basemapSwitch";
 
 import "leaflet/dist/leaflet.css";
 
 import "../css/map.css";
 
+import { basemaps } from "../constants/basemaps";
+
 const MainMap = (props) => {
   const cesisLocation = [57.31485, 25.27096];
   const [layers, setLayers] = useState([]);
   const [layerStyles, setLayerStyles] = useState([]);
+  const [basemap, setBasemap] = useState(basemaps[1]);
+
+  const ref= useRef()
 
   const parseLayers = (requestResult) => {
     let layersArray = [];
@@ -34,19 +40,27 @@ const MainMap = (props) => {
     }
     return layersArray;
   };
+  const switchBasemap = (basemapName) => {
+    const newBasemap = basemaps.find((basemap) => {
+      return basemap.name === basemapName;
+    });
+    console.log("Basemap switchin:", newBasemap.url);
+    console.log(newBasemap.url);
+    setBasemap(newBasemap);
+  };
 
-    const getLayerStyles = (layerNamesArray) => {
-      // filter out the layers that should not be shown
-      const filteredLayerArray = layerNamesArray.filter((layer) => layer.show);
-      // create an array of layer legend graphic urls
-      const layerStylesArray = filteredLayerArray.map((layer) => {
-        return {
-          layerName: layer.name.split("_")[0],
-          legendGraphic: legendGraphicTemplate + layer.name,
-        };
-      });
-      setLayerStyles(layerStylesArray);
-    };
+  const getLayerStyles = (layerNamesArray) => {
+    // filter out the layers that should not be shown
+    const filteredLayerArray = layerNamesArray.filter((layer) => layer.show);
+    // create an array of layer legend graphic urls
+    const layerStylesArray = filteredLayerArray.map((layer) => {
+      return {
+        layerName: layer.name.split("_")[0],
+        legendGraphic: legendGraphicTemplate + layer.name,
+      };
+    });
+    setLayerStyles(layerStylesArray);
+  };
 
   const handleLayers = (layerArray) => {
     setLayers(layerArray);
@@ -75,7 +89,12 @@ const MainMap = (props) => {
       />
     ) : null;
   };
-
+  // needed to update the otherwise immutable url property of basemap TileLayer
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.setUrl(basemap.url);
+    }
+  }, [basemap]);
   useEffect(() => {
     getAllLayerNames();
   }, []);
@@ -87,10 +106,12 @@ const MainMap = (props) => {
     <div className={"mapdiv"}>
       <Legend layerStyles={layerStyles} />
       <LayerControl layers={layers} handleLayers={handleLayers} />
+      <BasemapSwitch basemapName={basemap.name} setBasemap={switchBasemap} />
       <MapContainer center={cesisLocation} zoom={13} scrollWheelZoom={true}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          ref={ref}
+          attribution={basemap.attribution}
+          url={basemap.url}
         />
         {layers.map((layer) => {
           return drawLayer(layer);
