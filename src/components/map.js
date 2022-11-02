@@ -35,15 +35,18 @@ const MainMap = (props) => {
     return layersArray;
   };
 
-  const getLayerStyles = (layerNamesArray) => {
-    let layerStylesArray = layerNamesArray.map((layer) => {
-      return {
-        layerName: layer.name.split("_")[0],
-        legendGraphic: legendGraphicTemplate + layer.name,
-      };
-    });
-    setLayerStyles(layerStylesArray);
-  };
+    const getLayerStyles = (layerNamesArray) => {
+      // filter out the layers that should not be shown
+      const filteredLayerArray = layerNamesArray.filter((layer) => layer.show);
+      // create an array of layer legend graphic urls
+      const layerStylesArray = filteredLayerArray.map((layer) => {
+        return {
+          layerName: layer.name.split("_")[0],
+          legendGraphic: legendGraphicTemplate + layer.name,
+        };
+      });
+      setLayerStyles(layerStylesArray);
+    };
 
   const handleLayers = (layerArray) => {
     setLayers(layerArray);
@@ -80,7 +83,6 @@ const MainMap = (props) => {
     getLayerStyles(layers);
   }, [layers]);
 
-  console.log("parsing map");
   return (
     <div className={"mapdiv"}>
       <Legend layerStyles={layerStyles} />
