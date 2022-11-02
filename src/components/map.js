@@ -30,6 +30,8 @@ const MainMap = (props) => {
     let layersArray = [];
     const layerArray = requestResult.layers.layer;
     for (let index in layerArray) {
+      console.log(layerArray[index].name);
+
       let layerObject = {
         name: layerArray[index].name,
         title: layerArray[index].name.split("_")[0],

@@ -6,7 +6,7 @@ const Legend = (props) => {
   return props.layerStyles.length>0 ? (
     <div className="legendContainer">
       <div className="legendHeader">
-        <text>Legend</text>
+        <text>Apzīmējumi</text>
       </div>
       <div className="legendBody">
         {props.layerStyles.map((layer) => {

@@ -18,7 +18,7 @@ const BasemapSwitch = (props) => {
   return (
     <div className="basemapSwitchContainer">
       <div className="switchBody">
-        <text>Basemap: </text>
+        <text>Pamatkarte: </text>
         {basemaps.map((basemap) => (
           <div>
             <input

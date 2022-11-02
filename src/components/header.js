@@ -6,7 +6,7 @@ const Header = (props) => {
 
 return (
   <header className="App-header">
-    <h1>VRI melioration App</h1>
+    <h1>Meliorācija Cēsīs</h1>
   </header>
 );
 

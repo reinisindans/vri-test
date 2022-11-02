@@ -17,7 +17,7 @@ const LayerControl = (props) => {
   return (
     <div className="layerControlContainer">
       <div className="layerControlHeader">
-        <text>Layers</text>
+        <text>Slāņi</text>
       </div>
       <div className="layerControlBody">
         {props.layers.map((layer) => {
