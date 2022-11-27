@@ -1,6 +1,6 @@
 // This file stores all the url patterns to be able to query the geoserver 
 
-export const geoserver_IP = "http://35.228.26.108:8080/geoserver/";
+export const geoserver_IP = "http://35.228.26.179:8080/geoserver/";
 
 export const workspaceName= "vri-test"
 
